@@ -1,11 +1,13 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "oobook/ucl-app",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "The UCL App to forecast the champion of the UCL.",
     "keywords": [
         "laravel",
-        "framework"
+        "framework",
+        "inertiajs",
+        "vue"
     ],
     "license": "MIT",
     "require": {
