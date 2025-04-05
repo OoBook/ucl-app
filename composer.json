@@ -1,15 +1,17 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "oobook/ucl-app",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "The UCL App to forecast the champion of the UCL.",
     "keywords": [
         "laravel",
-        "framework"
+        "framework",
+        "inertiajs",
+        "vue"
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.2|^8.3|^8.4",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
@@ -52,7 +54,7 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan migrate --graceful --ansi"
+            "@php artisan migrate --graceful --seed --ansi"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
