@@ -19,6 +19,7 @@
     title: [String],
     titleField: [String],
     routePrefix: [String],
+    columns: [Array],
     displayFields: [Array],
     schema: [Array],
     resource: [Array, Object],
@@ -88,13 +89,17 @@
           <table class="w-full">
             <thead class="bg-gray-800 text-white">
               <tr>
-                <th class="px-6 py-4 text-left">Team Name</th>
+                <th v-for="column in columns" :key="column.key" class="px-6 py-4 text-left">
+                  {{ column.title }}
+                </th>
                 <th class="px-6 py-4 text-left">Actions</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
               <tr v-for="item in resource.data" :key="item.id">
-                <td class="px-6 py-4">{{ item.name }}</td>
+                <td v-for="column in columns" :key="column.key" class="px-6 py-4">
+                  {{ item[column.key] ?? '' }}
+                </td>
                 <td class="px-6 py-4 flex gap-2">
                   <SecondaryButton @click="showItem(item)">
                     View
