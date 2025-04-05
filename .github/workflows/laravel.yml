@@ -3,9 +3,17 @@ name: Laravel
 on:
   push:
     branches: [ "main", "dev" ]
+    paths-ignore:
+      - '**.md'
+      - '**.yml'
+      - '**.yaml'
+
   pull_request:
     branches: [ "main" ]
-
+    paths-ignore:
+      - '**.md'
+      - '**.yml'
+      - '**.yaml'
 jobs:
   laravel-tests:
 
