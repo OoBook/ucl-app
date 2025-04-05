@@ -39,6 +39,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('teams.index')"
+                                    :active="route().current('teams.index')"
+                                >
+                                    Teams
+                                </NavLink>
                             </div>
                         </div>
 
