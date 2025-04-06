@@ -141,7 +141,7 @@ abstract class CoreController extends Controller
 
         $item = $this->model::create($validated);
 
-        return redirect()->route($this->routePrefix . '.index');
+        return redirect()->route($this->routePrefix . '.index')->with('message', 'Item created successfully');
     }
 
     public function edit($id)
@@ -166,10 +166,10 @@ abstract class CoreController extends Controller
         $item->update($validated);
 
         if( $request->routeIs($this->routePrefix . '.edit') ) {
-            return redirect()->route($this->routePrefix . '.edit', [$id]);
+            return redirect()->route($this->routePrefix . '.edit', [$id])->with('message', 'Item updated successfully');
         }
 
-        return redirect()->route($this->routePrefix . '.index');
+        return redirect()->route($this->routePrefix . '.index')->with('message', 'Item updated successfully');
     }
 
     public function destroy(Request $request, $id)
@@ -178,10 +178,8 @@ abstract class CoreController extends Controller
 
         $item->delete();
 
-        // if ($request->wantsJson()) {
-        //     return response()->json(['message' => 'Team deleted successfully', 'status' => 'success']);
-        // }
-
-        return redirect()->route($this->routePrefix . '.index');
+        return redirect()
+            ->route($this->routePrefix . '.index')
+            ->with('message', 'Item deleted successfully');
     }
 }

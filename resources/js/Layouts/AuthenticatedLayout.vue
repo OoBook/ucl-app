@@ -45,6 +45,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Teams
                                 </NavLink>
+                                <NavLink
+                                    :href="route('fixtures.index')"
+                                    :active="route().current('fixtures.index')"
+                                >
+                                    Fixtures
+                                </NavLink>
                             </div>
                         </div>
 
@@ -197,6 +203,20 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Content -->
             <main>
+                <div v-if="$page.props.flash.message" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8">
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                        <!-- <strong class="font-bold">Success!</strong> -->
+                        <span class="block sm:inline">{{ $page.props.flash.message }}</span>
+                    </div>
+                </div>
+                <div v-else-if="$page.props.flash.errors && $page.props.flash.errors.length > 0" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8">
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <!-- <strong class="font-bold">Success!</strong> -->
+                       <ul>
+                        <li v-for="error in $page.props.flash.errors" :key="error">{{ error }}</li>
+                       </ul>
+                    </div>
+                </div>
                 <slot />
             </main>
         </div>
