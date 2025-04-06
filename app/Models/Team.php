@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Team extends Model
 {
@@ -21,6 +22,15 @@ class Team extends Model
         'supporter_strength'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($team) {
+            $team->leagueTable()->create();
+        });
+    }
+
     public function homeFixtures(): HasMany
     {
         return $this->hasMany(Fixture::class, 'home_team_id');
@@ -29,5 +39,10 @@ class Team extends Model
     public function awayFixtures(): HasMany
     {
         return $this->hasMany(Fixture::class, 'away_team_id');
+    }
+
+    public function leagueTable(): HasOne
+    {
+        return $this->hasOne(LeagueTable::class);
     }
 }
