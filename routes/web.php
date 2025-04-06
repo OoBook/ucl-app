@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TeamController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+use App\Http\Controllers\FixtureController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeamController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -27,5 +29,10 @@ Route::middleware('auth')->group(function () {
 
 // Teams
 Route::resource('teams', TeamController::class);
+
+// Fixtures
+Route::get('/fixtures', [FixtureController::class, 'index'])->name('fixtures.index');
+Route::post('/fixtures/generate', [FixtureController::class, 'generate'])->name('fixtures.generate');
+Route::post('/fixtures/clear', [FixtureController::class, 'clearFixtures'])->name('fixtures.clear');
 
 require __DIR__.'/auth.php';
