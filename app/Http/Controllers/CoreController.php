@@ -178,10 +178,8 @@ abstract class CoreController extends Controller
 
         $item->delete();
 
-        // if ($request->wantsJson()) {
-        //     return response()->json(['message' => 'Team deleted successfully', 'status' => 'success']);
-        // }
-
-        return redirect()->route($this->routePrefix . '.index');
+        return redirect()
+            ->route($this->routePrefix . '.index')
+            ->with('message', 'Item deleted successfully');
     }
 }
