@@ -1,4 +1,5 @@
 <script setup>
+  import { router } from '@inertiajs/vue3';
   import { ref } from 'vue';
 
   import { Head } from '@inertiajs/vue3';
@@ -13,6 +14,8 @@
 
   import ItemShow from '@/Components/ItemShow.vue';
   import ItemForm from '@/Components/ItemForm.vue';
+
+  import Table from '@/Components/Table.vue';
 
   const props = defineProps({
     pageTitle: [String],
@@ -69,6 +72,10 @@
   const formError = () => {
     formProcessing.value = false;
   }
+
+  const removeItem = (item) => {
+    router.delete(route(`${props.routePrefix}.destroy`, item.id));
+  }
 </script>
 
 <template>
@@ -81,37 +88,18 @@
       </h2>
     </template>
 
-    <div class="py-12">
+    <div class="py-8">
       <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
 
         <!-- Table -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <table class="w-full">
-            <thead class="bg-gray-800 text-white">
-              <tr>
-                <th v-for="column in columns" :key="column.key" class="px-6 py-4 text-left">
-                  {{ column.title }}
-                </th>
-                <th class="px-6 py-4 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-              <tr v-for="item in resource.data" :key="item.id">
-                <td v-for="column in columns" :key="column.key" class="px-6 py-4">
-                  {{ item[column.key] ?? '' }}
-                </td>
-                <td class="px-6 py-4 flex gap-2">
-                  <SecondaryButton @click="showItem(item)">
-                    View
-                  </SecondaryButton>
-
-                  <PrimaryButton @click="showForm(item)">
-                    Edit
-                  </PrimaryButton>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Table
+            :columns="columns"
+            :data="resource.data"
+            @show="showItem"
+            @edit="showForm"
+            @remove="removeItem"
+          />
         </div>
 
         <!-- Bottom Buttons -->
