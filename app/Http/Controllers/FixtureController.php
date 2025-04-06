@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Fixture;
 use App\Models\Team;
 use App\Http\Resources\TeamResource;
+use App\Models\LeagueTable;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
