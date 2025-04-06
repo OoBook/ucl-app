@@ -28,6 +28,7 @@ class Team extends Model
 
         static::created(function ($team) {
             $team->leagueTable()->create();
+            $team->championshipPrediction()->create();
         });
     }
 
@@ -44,5 +45,10 @@ class Team extends Model
     public function leagueTable(): HasOne
     {
         return $this->hasOne(LeagueTable::class);
+    }
+
+    public function championshipPrediction(): HasOne
+    {
+        return $this->hasOne(ChampionshipPrediction::class);
     }
 }
