@@ -8,12 +8,15 @@
   const props = defineProps({
     teams: Array,
     currentWeek: Number,
+    nextWeek: Number,
     fixtures: Array,
-    // predictions: Array,
+    predictions: Array,
     totalWeeks: Number
   });
 
-  console.log(props.teams, props.fixtures);
+  const allMatchesPlayed = computed(() => {
+    return !props.nextWeek;
+  });
 
   const sortedTable = computed(() => {
     return [...props.teams].sort((a, b) => {
@@ -29,6 +32,12 @@
 
       // If goal difference is equal, sort by goals for
       return b.goals_for - a.goals_for;
+    });
+  });
+
+  const sortedPredictions = computed(() => {
+    return [...props.predictions].sort((a, b) => {
+      return b.win_probability - a.win_probability;
     });
   });
 
@@ -90,6 +99,35 @@
               </tbody>
             </table>
           </div>
+          <!-- Controls -->
+          <div class="mt-8 flex flex-wrap gap-4">
+            <button
+              @click="playNextWeek"
+              class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-md"
+              :disabled="allMatchesPlayed"
+              :class="[allMatchesPlayed ? 'opacity-50' : '']"
+            >
+              Play Next Week
+            </button>
+
+            <button
+              @click="playAllWeeks"
+              class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-md"
+              :disabled="allMatchesPlayed"
+              :class="[allMatchesPlayed ? 'opacity-50' : '']"
+            >
+              Play All Weeks
+            </button>
+
+            <button
+              @click="resetData"
+              class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md"
+              :disabled="currentWeek == nextWeek"
+              :class="[currentWeek == nextWeek ? 'opacity-50' : '']"
+            >
+              Reset Data
+            </button>
+          </div>
         </div>
 
         <!-- Current Week Matches -->
@@ -104,34 +142,31 @@
                 :key="fixture.id"
                 class="py-3 border-b border-gray-200 last:border-0"
               >
-              <div class="grid grid-cols-12">
-                <span class="col-span-5">{{ fixture.home_team.name }}</span>
-                <span class="col-span-2 text-center text-gray-500">
-                  <template v-if="fixture.played">
-                    {{ fixture.home_team_score }} - {{ fixture.away_team_score }}
-                  </template>
-                  <template v-else>
-                    -
-                  </template>
-                </span>
-                <span class="col-span-5 text-right">{{ fixture.away_team.name }}</span>
-              </div>
-
-                <div v-if="fixture.played" class="mt-2 text-center">
-                  <span class="font-bold">{{ fixture.home_team_score }} - {{ fixture.away_team_score }}</span>
+                <div class="grid grid-cols-12">
+                  <span class="col-span-5">{{ fixture.home_team.name }}</span>
+                  <span class="col-span-2 text-center text-gray-500">
+                    <template v-if="fixture.played">
+                      {{ fixture.home_team_score }} - {{ fixture.away_team_score }}
+                    </template>
+                    <template v-else>
+                      -
+                    </template>
+                  </span>
+                  <span class="col-span-5 text-right">{{ fixture.away_team.name }}</span>
                 </div>
+
               </div>
             </div>
           </div>
 
           <!-- Championship Predictions -->
-          <!-- <div class="mt-6 bg-white rounded-lg shadow-md overflow-hidden" v-if="currentWeek >= 4 && predictions.length > 0">
+          <div class="mt-6 bg-white rounded-lg shadow-md overflow-hidden" v-if="predictions.length > 0">
             <div class="bg-gray-800 text-white px-4 py-3">
               <h2 class="text-xl font-bold">Championship Predictions</h2>
             </div>
             <div class="p-4">
               <div
-                v-for="prediction in predictions"
+                v-for="prediction in sortedPredictions"
                 :key="prediction.id"
                 class="py-2 flex justify-between items-center"
               >
@@ -139,39 +174,11 @@
                 <span class="font-bold">{{ prediction.win_probability }}%</span>
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
 
-      <!-- Controls -->
-      <div class="mt-8 flex flex-wrap gap-4">
-        <button
-          @click="playNextWeek"
-          class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-md"
-          :disabled="currentWeek >= totalWeeks"
-          :class="[currentWeek >= totalWeeks ? 'opacity-50' : '']"
-        >
-          Play Next Week
-        </button>
 
-        <button
-          @click="playAllWeeks"
-          class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-md"
-          :disabled="currentWeek >= totalWeeks"
-          :class="[currentWeek >= totalWeeks ? 'opacity-50' : '']"
-        >
-          Play All Weeks
-        </button>
-
-        <button
-          @click="resetData"
-          class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md"
-          :disabled="currentWeek == 1"
-          :class="[currentWeek == 1 ? 'opacity-50' : '']"
-        >
-          Reset Data
-        </button>
-      </div>
     </div>
   </AuthenticatedLayout>
 </template>
