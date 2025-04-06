@@ -85,9 +85,9 @@ class TeamController extends CoreController
         ],
         [
             'name' => 'supporter_strength',
-            'label' => 'Supporter Strength (1-100)',
+            'label' => 'Supporter Strength (1-50)',
             'type' => 'number',
-            'attributes' => ['min' => 1, 'max' => 100],
+            'attributes' => ['min' => 1, 'max' => 50],
         ],
     ];
 
@@ -115,6 +115,6 @@ class TeamController extends CoreController
         'away_disadvantage' => 'required|integer|min:0|max:20',
         'goalkeeper_index' => 'required|integer|min:1|max:100',
         'striker_index' => 'required|integer|min:1|max:100',
-        'supporter_strength' => 'required|integer|min:1|max:100',
+        'supporter_strength' => 'required|integer|min:1|max:50',
     ];
 }
