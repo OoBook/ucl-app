@@ -199,6 +199,8 @@ class FixtureController extends Controller
     public function clearFixtures()
     {
         Fixture::truncate();
+        LeagueTable::resetStats();
+
         return redirect()->route('fixtures.index');
     }
 }
