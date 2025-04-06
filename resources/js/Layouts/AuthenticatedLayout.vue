@@ -51,6 +51,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Fixtures
                                 </NavLink>
+                                <NavLink
+                                    :href="route('simulation.index')"
+                                    :active="route().current('simulation.index')"
+                                >
+                                    Simulation
+                                </NavLink>
                             </div>
                         </div>
 

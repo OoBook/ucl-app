@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Fixture;
+use App\Models\LeagueTable;
 use App\Models\Team;
 use Illuminate\Database\Seeder;
 
@@ -52,9 +53,13 @@ class FixtureSeeder extends Seeder
                     // 'week_number' => $fixture['week'],
                     // 'home_team_id' => $teams[$fixture['home']],
                     // 'away_team_id' => $teams[$fixture['away']],
+                    'home_team_score' => null,
+                    'away_team_score' => null,
                     'played' => false,
                 ]
-        );
+            );
         }
+
+        LeagueTable::resetStats();
     }
 }

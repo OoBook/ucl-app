@@ -126,7 +126,7 @@ class TeamControllerTest extends TestCase
             'away_disadvantage' => 10,
             'goalkeeper_index' => 75,
             'striker_index' => 85,
-            'supporter_strength' => 70
+            'supporter_strength' => 45
         ];
 
         $response = $this->put(route('teams.update', $team), $updatedData);

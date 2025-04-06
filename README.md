@@ -58,5 +58,13 @@ test@useinsider.com
 12345678
 ```
 
+## Testing
+
+To run the tests, you can use the following command:
+
+```bash
+php artisan test
+```
+
 ## License
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

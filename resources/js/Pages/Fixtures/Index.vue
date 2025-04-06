@@ -6,6 +6,7 @@
   import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
   import PrimaryButton from '@/Components/PrimaryButton.vue';
+  import SecondaryButton from '@/Components/SecondaryButton.vue';
   import DangerButton from '@/Components/DangerButton.vue';
 
   import Table from '@/Components/Table.vue';
@@ -81,30 +82,37 @@
                 <span class="col-span-5 text-right">{{ fixture.away_team.name }}</span>
               </div>
 
-              <div v-if="fixture.played" class="mt-2 text-center">
-                <span class="font-bold">{{ fixture.home_team_score }} - {{ fixture.away_team_score }}</span>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="flex justify-end">
+      <div class="flex justify-between mt-4">
         <PrimaryButton
-          @click="generateFixtures"
-          class="mt-4"
+          :class="[!hasFixtures ? 'opacity-50' : '']"
+          :disabled="!hasFixtures"
+          @click="router.get(route('simulation.index'))"
         >
-          {{ hasFixtures ? 'Regenerate Fixtures' : 'Generate Fixtures' }}
+          Simulate
         </PrimaryButton>
 
-        <DangerButton
-          v-if="hasFixtures"
-          @click="clearFixtures"
+        <div class="flex justify-end">
+          <PrimaryButton
+            @click="generateFixtures"
+            class=""
+          >
+            {{ hasFixtures ? 'Regenerate Fixtures' : 'Generate Fixtures' }}
+          </PrimaryButton>
 
-          class="ms-4 mt-4"
-        >
-          Clear Fixtures
-        </DangerButton>
+          <DangerButton
+            v-if="hasFixtures"
+            @click="clearFixtures"
+
+            class="ms-4"
+          >
+            Clear Fixtures
+          </DangerButton>
+        </div>
       </div>
 
       <!-- <div class="mt-6">
