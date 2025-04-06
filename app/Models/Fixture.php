@@ -92,53 +92,13 @@ class Fixture extends Model
     /**
      * Play the fixture and update the scores
      */
-    public function play($homeGoals, $awayGoals)
+    public function saveScore($homeGoals, $awayGoals)
     {
         $this->update([
             'home_team_score' => $homeGoals,
             'away_team_score' => $awayGoals,
             'played' => true,
         ]);
-    }
-
-    /**
-     * Simulate the fixture and update the scores
-     */
-    public function simulate()
-    {
-        $homeTeam = $this->homeTeam;
-        $awayTeam = $this->awayTeam;
-
-        // Calculate effective strengths with home/away adjustments
-        $homeEffectiveStrength = $homeTeam->strength + $homeTeam->home_advantage + $homeTeam->supporter_strength / 10;
-        $awayEffectiveStrength = $awayTeam->strength - $awayTeam->away_disadvantage;
-
-        // Calculate goal probabilities based on team strengths and striker/goalkeeper indexes
-        $homeGoalProbability = ($homeEffectiveStrength + $homeTeam->striker_index - $awayTeam->goalkeeper_index / 2) / 100;
-        $awayGoalProbability = ($awayEffectiveStrength + $awayTeam->striker_index - $homeTeam->goalkeeper_index / 2) / 100;
-
-        // Simulate goals (typically 0-5 goals per team)
-        $homeGoals = $this->generateGoals($homeGoalProbability);
-        $awayGoals = $this->generateGoals($awayGoalProbability);
-
-        $this->play($homeGoals, $awayGoals);
-    }
-
-    /**
-     * Generate goals based on probability
-     */
-    private function generateGoals($probability)
-    {
-        // Base number of goals
-        $baseGoals = rand(0, 3);
-
-        // Adjust based on probability (higher probability = more likely to score additional goals)
-        $additionalGoals = 0;
-        if (rand(0, 100) / 100 < $probability) {
-            $additionalGoals += rand(0, 2);
-        }
-
-        return $baseGoals + $additionalGoals;
     }
 
     public static function resetFixtures()
@@ -150,5 +110,7 @@ class Fixture extends Model
         ]);
 
         LeagueTable::resetStats();
+
+        ChampionshipPrediction::resetPredictions();
     }
 }

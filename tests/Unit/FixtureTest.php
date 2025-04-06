@@ -127,7 +127,7 @@ class FixtureTest extends TestCase
         ]);
 
         // Play the fixture with a home win (3-1)
-        $fixture->play(3, 1);
+        $fixture->saveScore(3, 1);
 
         // Refresh models
         $homeLeagueTable = $homeTeam->fresh('leagueTable')->leagueTable;
@@ -171,7 +171,7 @@ class FixtureTest extends TestCase
         ]);
 
         // Play the fixture with an away win (1-3)
-        $fixture->play(1, 3);
+        $fixture->saveScore(1, 3);
 
         // Refresh models
         $homeLeagueTable = $homeTeam->fresh('leagueTable')->leagueTable;
@@ -215,7 +215,7 @@ class FixtureTest extends TestCase
         ]);
 
         // Play the fixture with a draw (2-2)
-        $fixture->play(2, 2);
+        $fixture->saveScore(2, 2);
 
         // Refresh models
         $homeLeagueTable = $homeTeam->fresh('leagueTable')->leagueTable;
@@ -242,7 +242,7 @@ class FixtureTest extends TestCase
         $this->assertEquals(1, $awayLeagueTable->points);
     }
 
-    public function test_play_method_updates_fixture()
+    public function test_saveScore_method_updates_fixture()
     {
         // Create teams with league tables
         $homeTeam = Team::factory()->create();
@@ -261,49 +261,11 @@ class FixtureTest extends TestCase
         ]);
 
         // Play the fixture
-        $fixture->play(3, 2);
+        $fixture->saveScore(3, 2);
 
         // Check fixture was updated
         $this->assertTrue($fixture->played);
         $this->assertEquals(3, $fixture->home_team_score);
         $this->assertEquals(2, $fixture->away_team_score);
-    }
-
-    public function test_simulate_method_generates_scores_and_updates_fixture()
-    {
-        // Create teams with specific attributes
-        $homeTeam = Team::factory()->create([
-            'strength' => 80,
-            'home_advantage' => 10,
-            'supporter_strength' => 70,
-            'striker_index' => 85,
-            'goalkeeper_index' => 75,
-        ]);
-
-        $awayTeam = Team::factory()->create([
-            'strength' => 70,
-            'away_disadvantage' => 5,
-            'striker_index' => 75,
-            'goalkeeper_index' => 65,
-        ]);
-
-        // Create fixture
-        $fixture = Fixture::factory()->create([
-            'home_team_id' => $homeTeam->id,
-            'away_team_id' => $awayTeam->id,
-            'played' => false,
-            'home_team_score' => null,
-            'away_team_score' => null,
-        ]);
-
-        // Simulate the fixture
-        $fixture->simulate();
-
-        // Check fixture was updated
-        $this->assertTrue($fixture->played);
-        $this->assertNotNull($fixture->home_team_score);
-        $this->assertNotNull($fixture->away_team_score);
-        $this->assertIsInt($fixture->home_team_score);
-        $this->assertIsInt($fixture->away_team_score);
     }
 }
